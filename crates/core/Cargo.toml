@@ -1,0 +1,13 @@
+[package]
+name = "region-dealias-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Region-based Doppler velocity dealiasing — a faithful Rust port of Py-ART's dealias_region_based core."
+
+[lib]
+name = "region_dealias_core"
+path = "src/lib.rs"
+
+[dependencies]
