@@ -63,6 +63,32 @@ Identity relies on faithfully reproducing: `scipy.ndimage.label` numbering
 traversal order, the float32/float64 dtype chain, NumPy banker's rounding
 (`round_ties_even`), and `argmax`-first-tie selection.
 
+## Benchmark
+
+Real-volume check on the 29 June 2023 Midwest derecho — KILX (Lincoln, IL),
+18:05:59Z, lowest velocity sweep (0.5°, 720 × 1192 rays×gates, Nyquist
+29.25 m/s, 388,084 valid gates):
+
+- **Parity: 100%.** The Rust fold field is bit-identical to the Py-ART
+  reference — **0 of 388,084 valid gates differ** (max|Δ| = 0 m/s).
+- **Speed: ~1.4× faster** per sweep than the reference region-based algorithm
+  (region-dealias ≈1.36 s vs Py-ART ≈1.90 s, best-of-N wall time).
+
+![region-dealias vs Py-ART on the 2023 derecho](benchmarks/parity_derecho_2023.png)
+
+Left: folded velocity input. Middle: dealiased by region-dealias. Right: the
+difference vs Py-ART — uniformly zero across the sweep.
+
+The baseline is the verbatim Py-ART algorithm in `tests/pyart_ref.py` (the same
+oracle the parity tests use); Py-ART's region-network reduction is itself pure
+Python, so this is a like-for-like comparison of that path. This sweep is only
+lightly aliased (at most one Nyquist fold), which makes 1.4× a *conservative*
+figure — the Rust advantage grows with the number and size of aliased regions.
+Absolute times vary by machine.
+
+Reproduce: `python benchmarks/benchmark_derecho.py <volume>` (the script header
+has the one-line anonymous download for the exact volume).
+
 ## Layout
 
 ```

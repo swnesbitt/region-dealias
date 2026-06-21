@@ -1,0 +1,17 @@
+{
+  "volume": "KILX20230629_180559_V06",
+  "sweep": 12,
+  "elevation": 0.525,
+  "shape": [
+    720,
+    1192
+  ],
+  "nyquist": 29.25,
+  "t_pyart_oracle_s": 1.9026230429954012,
+  "t_rust_s": 1.3614707090018783,
+  "speedup": 1.397476295608484,
+  "folds_identical": true,
+  "gates_differing": 0,
+  "valid_gates": 388084,
+  "max_abs_folds": 1
+}
